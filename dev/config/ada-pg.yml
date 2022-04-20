@@ -1,0 +1,26 @@
+data:
+  crowd: true
+  data_dir: ./dev/data/task1/
+model:
+  adapter_size: 128
+  lstm_size: 400
+  name: pga
+  word_embedding:
+    name_or_path: /home/yjx2018/projects/bert-base-chinese
+optim:
+  lr: 0.001
+  name: Adam
+trainer:
+  batch_size: 64
+  early_stop: true
+  epoch_num: 20
+  pre_train_path: dev/model/before_emnlp/ada-mix-m1_123_16.pth
+  # pre_train_path: dev/model/ada-pg-n6_123_7.pth
+  # pre_train_path: dev/model/ada-pg-sr2self_eval_123_best.pth
+  save_after: -1
+  save_dir: ./dev/model/
+  save_strategy: best
+  test_every: 1
+vocab:
+  min_count:
+    words: 1

@@ -1,0 +1,21 @@
+data:
+  crowd: true
+  data_dir: ./dev/data/task1/
+model:
+  name: ft
+  word_embedding:
+    name_or_path: /home/yjx2018/projects/bert-base-chinese
+optim:
+  lr: 0.00005
+  name: Adam
+trainer:
+  batch_size: 32
+  early_stop: true
+  epoch_num: 10
+  save_after: 0
+  save_dir: ./dev/model/
+  save_strategy: no
+  test_every: 1
+vocab:
+  min_count:
+    words: 1

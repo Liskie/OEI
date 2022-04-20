@@ -1,0 +1,24 @@
+data:
+  crowd: true
+  data_dir: ./dev/data/task1/
+model:
+  adapter_size: 128
+  lstm_size: 400
+  name: mixmodel
+  word_embedding:
+    name_or_path: /home/yjx2018/projects/bert-base-chinese
+optim:
+  lr: 0.001
+  name: Adam
+trainer:
+  batch_size: 64
+  early_stop: true
+  epoch_num: 20
+  pre_train_path: dev/model/ada-mm_123_9.pth
+  save_after: -1
+  save_dir: ./dev/model/
+  save_strategy: all
+  test_every: 1
+vocab:
+  min_count:
+    words: 1
