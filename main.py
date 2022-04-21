@@ -13,7 +13,6 @@ _ARG_PARSER.add_argument('--name', '-n', type=str, default=None, help='save name
 _ARG_PARSER.add_argument('--seed', '-s', type=int, default=123, help='random seed')
 _ARG_PARSER.add_argument('--all', '-a', type=bool, default=False, help='all seed?')
 _ARG_PARSER.add_argument('--debug', '-d', default=False, action="store_true")
-_ARG_PARSER.add_argument('--debug', '-d', default=False, action="store_true")
 _ARG_PARSER.add_argument('--em', type=bool, default=False)
 _ARG_PARSER.add_argument('--timing', type=int, default=None)
 _ARG_PARSER.add_argument('--mode', type=int, default=None)
