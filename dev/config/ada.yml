@@ -5,7 +5,7 @@ model:
   lstm_size: 400
   name: ad
   word_embedding:
-    name_or_path: /home/yjx2018/projects/bert-base-chinese
+    name_or_path: bert-base-chinese
 optim:
   lr: 0.001
   name: Adam
@@ -15,7 +15,7 @@ trainer:
   epoch_num: 20
   save_after: 0
   save_dir: ./dev/model/
-  pre_train_path: dev/model/ada_123_126_best.pth
+  pre_train_path: dev/model/ada_silver_best.pth
   save_strategy: best
   test_every: 1
 vocab:
