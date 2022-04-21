@@ -232,6 +232,15 @@ def allowed_transition(vocab):
 def main():
     cfg = argparse.Namespace(**load_yaml(f"./dev/config/{_ARGS.yaml}.yml"))
 
+    # Debug: check cfg and ARGS
+    print('cfg:')
+    print(cfg)
+    print()
+
+    print('args:')
+    print(_ARGS)
+    return
+
     device = torch.device("cuda:0")
     data_kwargs, vocab_kwargs = dict(cfg.data), dict(cfg.vocab)
     use_bert = 'bert' in cfg.model['word_embedding']['name_or_path']
@@ -251,7 +260,8 @@ def main():
 
     # cache_name = _ARGS.yaml
     # if not os.path.exists(cache_path(cache_name)):
-    cfg.data['data_dir'] = 'data/'
+    # cfg.data['data_dir'] = 'data/'
+
     dataset = argparse.Namespace(**OpinionDataset.build(**cfg.data))
     vocab = Vocabulary.from_data(dataset, **vocab_kwargs)
     vocab.set_field(['[PAD]', 'O', 'B-POS', 'I-POS', 'B-NEG', 'I-NEG'], 'labels')
@@ -292,7 +302,7 @@ def main():
 
     if _ARGS.self:
         cfg.model['self_eval'] = True
-        prefix += 'self_eval'
+        prefix += '_self-eval'
 
     if isinstance(_ARGS.lstm_size, int):
         cfg.model['lstm_size'] = _ARGS.lstm_size

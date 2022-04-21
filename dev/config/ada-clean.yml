@@ -1,8 +1,7 @@
 data:
-  crowd: true
-  data_dir: ./data/
+  data_dir: ./data_clean/
 model:
-  adapter_size: 64
+  adapter_size: 128
   lstm_size: 400
   name: ad
   word_embedding:
@@ -14,9 +13,9 @@ trainer:
   batch_size: 64
   early_stop: true
   epoch_num: 20
-  pre_train_path: dev/model/ada-all_123_best.pth
   save_after: 0
   save_dir: ./dev/model/
+  pre_train_path: dev/model/ada_silver_clean_best.pth
   save_strategy: best
   test_every: 1
 vocab:
