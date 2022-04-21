@@ -13,6 +13,7 @@ _ARG_PARSER.add_argument('--name', '-n', type=str, default=None, help='save name
 _ARG_PARSER.add_argument('--seed', '-s', type=int, default=123, help='random seed')
 _ARG_PARSER.add_argument('--all', '-a', type=bool, default=False, help='all seed?')
 _ARG_PARSER.add_argument('--debug', '-d', default=False, action="store_true")
+_ARG_PARSER.add_argument('--debug', '-d', default=False, action="store_true")
 _ARG_PARSER.add_argument('--em', type=bool, default=False)
 _ARG_PARSER.add_argument('--timing', type=int, default=None)
 _ARG_PARSER.add_argument('--mode', type=int, default=None)
@@ -36,7 +37,7 @@ if _ARGS:
 
     import nmnlp
     from nmnlp.common.config import load_yaml
-    from nmnlp.common.util import output
+    from nmnlp.common.util import output, merge_dicts
     # from nmnlp.common.util import cache_path, load_cache, dump_cache
     from nmnlp.common.writer import Writer
     from nmnlp.common import Trainer, Vocabulary
@@ -323,6 +324,8 @@ def main():
     seeds = SEEDS if _ARGS.all else [_ARGS.seed]
     for seed in seeds:
         print('\n')
+        print(f'seed = {seed}')
+        print()
         set_seed(seed)
         cfg.trainer['prefix'] = f"{prefix}_{seed}"
         if 'pre_train_path' not in cfg.trainer:
@@ -331,6 +334,8 @@ def main():
         writer = Writer(log_dir, str(seed), 'tensorboard') if log_dir else None
         info.append(run_once(cfg, dataset, vocab, device, writer, seed))
 
+    print("\ntotal info:")
+    print(info)
     # print('\nAVG DEV: ', merge_dicts([i[0] for i in info], avg=True))
     # print('AVG TEST: ', merge_dicts([i[1] for i in info], avg=True))
 
