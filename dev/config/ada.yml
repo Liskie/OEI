@@ -1,5 +1,5 @@
 data:
-  data_dir: ./dev/data/task1/
+  data_dir: ./data/
 model:
   adapter_size: 128
   lstm_size: 400
