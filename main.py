@@ -357,12 +357,17 @@ def main():
         print()
         set_seed(seed)
         cfg.trainer['prefix'] = f"{prefix}_{seed}"
-        wandb.init(project="OEI", name=cfg.trainer['prefix'], entity="icall-oei")
+        wandb_run = wandb.init(project="OEI",
+                               name=cfg.trainer['prefix'],
+                               entity="icall-oei",
+                               group=prefix,
+                               reinit=True)
         if 'pre_train_path' not in cfg.trainer:
             cfg.trainer['pre_train_path'] = os.path.normpath(
                 f"./dev/model/{cfg.trainer['prefix']}_best.pth")
         writer = Writer(log_dir, str(seed), 'tensorboard') if log_dir else None
         info.append(run_once(cfg, dataset, vocab, device, writer, seed))
+        wandb_run.finish()
 
     print("\ntotal info:")
     print(info)
