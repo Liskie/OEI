@@ -240,6 +240,10 @@ class Trainer(object):
         printf(f"{scalar_group} {epoch} complete, epoch_loss: {loss_epoch:.4f}, "
                f"time: {sec_to_time(self.time_epoch)}")
 
+        print('\n')
+        print(loss_epoch)
+        print('\n')
+
         wandb.log({'train_loss': loss_epoch})
 
     def train_func(
