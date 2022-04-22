@@ -10,8 +10,8 @@ optim:
   name: Adam
 trainer:
   batch_size: 32
-  early_stop: true
-  epoch_num: 10
+  early_stop: false
+  epoch_num: 50
   save_after: 0
   save_dir: ./dev/model/
   save_strategy: no

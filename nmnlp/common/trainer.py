@@ -201,7 +201,7 @@ class Trainer(object):
             epoch += 1
 
         time_train = time.time() - time_start
-        printf(f'training compete, time: {sec_to_time(time_train)} .')
+        printf(f'training complete, time: {sec_to_time(time_train)} .')
         printf(f"Best epoch: {best_epoch}, "
                f"{format_metric(self.model.metric.best)}")
         if self.writer:
@@ -237,7 +237,7 @@ class Trainer(object):
             scalars['loss_variance'] = losses.var()
             self.writer.add_scalars(scalar_group, scalars, epoch)
 
-        printf(f"{scalar_group} {epoch} compete, epoch_loss: {loss_epoch:.4f}, "
+        printf(f"{scalar_group} {epoch} complete, epoch_loss: {loss_epoch:.4f}, "
                f"time: {sec_to_time(self.time_epoch)}")
 
         wandb.log({'train_loss': loss_epoch})
@@ -301,7 +301,7 @@ class Trainer(object):
         info['epoch_loss'] = losses.mean().item()
         if self.writer:
             self.writer.add_scalars('Dev', info, epoch)
-        printf(f"Eval compete, {format_metric(info)}")
+        printf(f"Eval complete, {format_metric(info)}")
 
         wandb.log({'dev_loss': info['epoch_loss'],
                    'dev_F1': info['main_F1']})
@@ -356,7 +356,7 @@ class Trainer(object):
         self.callbacks.after_process_one(metric, locals())
 
         if epoch is None:
-            printf(f"Test {name} compete, {format_metric(metric)}")
+            printf(f"Test {name} complete, {format_metric(metric)}")
             info = {k: v for k, v in metric.items()}
 
             wandb.log({'test_F1': info['main_F1']})
@@ -453,7 +453,7 @@ class MultiSourceTrainer(Trainer):
         metric = self.model.metric.get_metric(
             counter=reduce(namespace_add, counters))
         if epoch is None:
-            printf(f"All compete, {format_metric(metric)}")
+            printf(f"All complete, {format_metric(metric)}")
         return metric, counters, torch.cat(losses)
 
     def _eval_once(self, epoch: int, dataset: Union[List[DataSet], Dict[str, DataSet]]):
@@ -474,7 +474,10 @@ class MultiSourceTrainer(Trainer):
         if self.writer:
             self.writer.add_scalars('Dev', info, epoch)
             self.writer.flush()
-        printf(f"Eval compete, {format_metric(info)}")
+        printf(f"Eval complete, {format_metric(info)}")
+
+        wandb.log({'dev_loss': info['epoch_loss'],
+                   'dev_F1': info['main_F1']})
 
         return metric
 

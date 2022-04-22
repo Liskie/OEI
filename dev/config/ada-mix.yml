@@ -12,8 +12,8 @@ optim:
   name: Adam
 trainer:
   batch_size: 64
-  early_stop: true
-  epoch_num: 20
+  early_stop: false
+  epoch_num: 50
   # pre_train_path: dev/model/ada-mm_123_1.pth
   # pre_train_path: dev/model/ada-mix-m1_123_1.pth
   pre_train_path: dev/model/ada-mix-selfself_eval_123_1.pth
