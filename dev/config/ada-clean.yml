@@ -3,7 +3,7 @@ data:
 model:
   adapter_size: 128
   lstm_size: 400
-  name: ad
+  name: ad-clean
   word_embedding:
     name_or_path: bert-base-chinese
 optim:

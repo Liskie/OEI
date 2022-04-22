@@ -305,13 +305,13 @@ def main():
 
     if isinstance(_ARGS.lstm_size, int):
         cfg.model['lstm_size'] = _ARGS.lstm_size
-        prefix += f'-l{_ARGS.lstm_size}'
+        prefix += f'_l{_ARGS.lstm_size}'
     if isinstance(_ARGS.adapter_size, int):
         cfg.model['adapter_size'] = _ARGS.adapter_size
-        prefix += f'-a{_ARGS.adapter_size}'
+        prefix += f'_a{_ARGS.adapter_size}'
     if isinstance(_ARGS.num_adapters, int):
         cfg.model['num_adapters'] = _ARGS.num_adapters
-        prefix += f'-n{_ARGS.num_adapters}'
+        prefix += f'_n{_ARGS.num_adapters}'
     print(cfg.model)
 
     info = list()
