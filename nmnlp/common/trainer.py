@@ -240,11 +240,7 @@ class Trainer(object):
         printf(f"{scalar_group} {epoch} complete, epoch_loss: {loss_epoch:.4f}, "
                f"time: {sec_to_time(self.time_epoch)}")
 
-        print('\n')
-        print(loss_epoch)
-        print('\n')
-
-        wandb.log({'train_loss': loss_epoch})
+        wandb.log({'train_loss': loss_epoch}, commit=False)
 
     def train_func(
         self, loader: DataLoader, epoch: int, step: bool, forward_func: Callable, scalar_group: str,
@@ -308,7 +304,7 @@ class Trainer(object):
         printf(f"Eval complete, {format_metric(info)}")
 
         wandb.log({'dev_loss': info['epoch_loss'],
-                   'dev_F1': info['main_F1']})
+                   'dev_F1': info['main_F1']}, commit=False)
 
         return metric
 
