@@ -238,14 +238,7 @@ def allowed_transition(vocab):
 def main():
     cfg = argparse.Namespace(**load_yaml(f"./dev/config/{_ARGS.yaml}.yml"))
 
-    # Debug: check cfg and ARGS
-    print('cfg:')
-    print(cfg)
-    print()
-
-    print('args:')
-    print(_ARGS)
-    return
+    print(f'args:\n{_ARGS}\n')
 
     device = torch.device("cuda:0")
     data_kwargs, vocab_kwargs = dict(cfg.data), dict(cfg.vocab)
