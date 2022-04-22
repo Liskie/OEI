@@ -35,6 +35,9 @@ _ARGS = _ARG_PARSER.parse_args()
 
 os.environ['CUDA_VISIBLE_DEVICES'] = _ARGS.cuda
 
+# import os
+# os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 if _ARGS:
     import random
 
@@ -353,7 +356,7 @@ def main():
         print()
         set_seed(seed)
         cfg.trainer['prefix'] = f"{prefix}_{seed}"
-        wandb.init(project="OEI", name=cfg.trainer['prefix'], entity="liskie")
+        wandb.init(project="OEI", name=cfg.trainer['prefix'], entity="icall-oei")
         if 'pre_train_path' not in cfg.trainer:
             cfg.trainer['pre_train_path'] = os.path.normpath(
                 f"./dev/model/{cfg.trainer['prefix']}_best.pth")
