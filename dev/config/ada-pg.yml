@@ -1,12 +1,12 @@
 data:
   crowd: true
-  data_dir: ./dev/data/task1/
+  data_dir: ./data/
 model:
   adapter_size: 128
   lstm_size: 400
   name: pga
   word_embedding:
-    name_or_path: /home/yjx2018/projects/bert-base-chinese
+    name_or_path: bert-base-chinese
 optim:
   lr: 0.001
   name: Adam
