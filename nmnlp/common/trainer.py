@@ -12,6 +12,7 @@ from functools import reduce
 from collections import OrderedDict
 
 import torch
+import wandb
 from torch.nn.utils import clip_grad_norm_, clip_grad_value_
 from torch.optim.optimizer import Optimizer  # pylint: disable=no-name-in-module
 from torch.utils.data import DataLoader, Sampler
@@ -91,7 +92,7 @@ class Trainer(object):
                  device: str = DEVICE_CPU,
                  clip_grad: Dict = CLIP_GRAD,
                  batch_size: int = 32,
-                 early_stop: bool = True,
+                 early_stop: bool = False,
                  epoch_num: int = 100,
                  epoch_start: int = 0,
                  test_every: int = 0,
@@ -196,7 +197,7 @@ class Trainer(object):
             # 如果启用了early stop 且 计数器达到阈值，提前终止训练。
             if self.early_stop and stop_counter > EARLY_STOP_THRESHOLD:
                 run_flag = False
-                printf('Early stoped!')
+                printf('Early stopped!')
             epoch += 1
 
         time_train = time.time() - time_start
@@ -238,6 +239,8 @@ class Trainer(object):
 
         printf(f"{scalar_group} {epoch} compete, epoch_loss: {loss_epoch:.4f}, "
                f"time: {sec_to_time(self.time_epoch)}")
+
+        wandb.log({'train_loss': loss_epoch})
 
     def train_func(
         self, loader: DataLoader, epoch: int, step: bool, forward_func: Callable, scalar_group: str,
@@ -300,6 +303,9 @@ class Trainer(object):
             self.writer.add_scalars('Dev', info, epoch)
         printf(f"Eval compete, {format_metric(info)}")
 
+        wandb.log({'dev_loss': info['epoch_loss'],
+                   'dev_F1': info['main_F1']})
+
         return metric
 
     def test(
@@ -313,6 +319,8 @@ class Trainer(object):
         self.model.train(False)  # equal to `self.model.eval()`
         with torch.no_grad():
             metric, *_ = self.process_one(dataset, comment, device, batch_size)
+
+
 
         return metric
 
@@ -349,6 +357,10 @@ class Trainer(object):
 
         if epoch is None:
             printf(f"Test {name} compete, {format_metric(metric)}")
+            info = {k: v for k, v in metric.items()}
+
+            wandb.log({'test_F1': info['main_F1']})
+
         return metric, metric_counter, losses
 
     def checkpoint(self, epoch: int, comment: str = None):

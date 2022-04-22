@@ -5,6 +5,8 @@ import os
 import copy
 import argparse
 
+import wandb
+
 _ARG_PARSER = argparse.ArgumentParser(description="我的实验，需要指定配置文件")
 _ARG_PARSER.add_argument('--yaml', '-y', type=str, default='ada-pg', help='configuration file path.')
 _ARG_PARSER.add_argument('--cuda', '-c', type=str, default='0', help='gpu ids, like: 1,2,3')
@@ -28,6 +30,7 @@ _ARG_PARSER.add_argument('--self', action='store_true', help='crowd annotators s
 _ARG_PARSER.add_argument('--adapter_size', type=int, default=None)
 _ARG_PARSER.add_argument('--lstm_size', type=int, default=None)
 _ARG_PARSER.add_argument('--num_adapters', type=int, default=None)
+# _ARG_PARSER.add_argument('--wandb_name', type=str, required=True)
 _ARGS = _ARG_PARSER.parse_args()
 
 os.environ['CUDA_VISIBLE_DEVICES'] = _ARGS.cuda
@@ -143,16 +146,26 @@ def run_once(cfg, dataset, vocab, device, writer=None, seed=123):
         setattr(dataset, "raw", dataset.train)
 
     if _ARGS.self:
-        dataset.dev = OpinionDataset.new_crowd('data', 'dev-crowd')
+        # Before :
+        # dataset.train : train.json
+        # dataset.dev   : dev.json
+        # dataset.test  : test.json
+        dataset.dev = OpinionDataset.new_crowd(cfg.data['data_dir'], 'dev-crowd')
         dataset.dev.index_with(vocab)
         dataset.test_exp = dataset.test
-        dataset.test = OpinionDataset.new_crowd('data', 'test-crowd')
+        dataset.test = OpinionDataset.new_crowd(cfg.data['data_dir'], 'test-crowd')
         dataset.test.index_with(vocab)
         for i in range(10):
             name = 'test-crowd-r{}'.format(i + 1)
             test_i = OpinionDataset.new_crowd('data', name)
             test_i.index_with(vocab)
             setattr(dataset, name, test_i)
+        # After :
+        # dataset.train    : train.json
+        # dataset.dev      : dev-crowd.json
+        # dataset.test_exp : test.json
+        # dataset.test     : test-crowd.json
+        # dataset.test-crowd-r{i} : test-crowd-r{i}.json
 
     if not _ARGS.test:
         # 训练过程
@@ -262,6 +275,10 @@ def main():
     # cfg.data['data_dir'] = 'data/'
 
     dataset = argparse.Namespace(**OpinionDataset.build(**cfg.data))
+    # dataset.train : train.json
+    # dataset.dev   : dev.json
+    # dataset.test  : test.json
+
     vocab = Vocabulary.from_data(dataset, **vocab_kwargs)
     vocab.set_field(['[PAD]', 'O', 'B-POS', 'I-POS', 'B-NEG', 'I-NEG'], 'labels')
 
@@ -336,6 +353,7 @@ def main():
         print()
         set_seed(seed)
         cfg.trainer['prefix'] = f"{prefix}_{seed}"
+        wandb.init(project="OEI", name=cfg.trainer['prefix'], entity="liskie")
         if 'pre_train_path' not in cfg.trainer:
             cfg.trainer['pre_train_path'] = os.path.normpath(
                 f"./dev/model/{cfg.trainer['prefix']}_best.pth")
