@@ -62,7 +62,7 @@ else:
     raise Exception('Argument error.')
 
 SEEDS = (123, 456, 789, 686, 666, 233, 1024, 2080, 3080, 3090)
-SEEDS = SEEDS[:5]
+SEEDS = SEEDS[5:]
 
 nmnlp.common.trainer.EARLY_STOP_THRESHOLD = 5
 
