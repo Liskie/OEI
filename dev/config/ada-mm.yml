@@ -12,8 +12,8 @@ optim:
   name: Adam
 trainer:
   batch_size: 64
-  early_stop: false
-  epoch_num: 50
+  early_stop: true
+  epoch_num: 25
   pre_train_path: dev/model/ada-mm_123_9.pth
   save_after: -1
   save_dir: ./dev/model/

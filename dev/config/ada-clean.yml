@@ -12,7 +12,7 @@ optim:
 trainer:
   batch_size: 64
   early_stop: true
-  epoch_num: 20
+  epoch_num: 25
   save_after: 0
   save_dir: ./dev/model/
   pre_train_path: dev/model/ada_silver_clean_best.pth
