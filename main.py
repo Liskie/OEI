@@ -352,9 +352,7 @@ def main():
 
     seeds = SEEDS if _ARGS.all else [_ARGS.seed]
     for seed in seeds:
-        print('\n')
-        print(f'seed = {seed}')
-        print()
+        print(f'\nseed = {seed}\n')
         set_seed(seed)
         cfg.trainer['prefix'] = f"{prefix}_{seed}"
         wandb_run = wandb.init(project="OEI",
