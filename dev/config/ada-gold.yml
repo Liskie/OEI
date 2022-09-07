@@ -1,0 +1,23 @@
+data:
+  data_dir: ./data/
+model:
+  adapter_size: 128
+  lstm_size: 400
+  name: ad
+  word_embedding:
+    name_or_path: bert-base-chinese
+optim:
+  lr: 0.001
+  name: Adam
+trainer:
+  batch_size: 64
+  early_stop: true
+  epoch_num: 25
+  save_after: 0
+  save_dir: ./dev/model/
+  pre_train_path: dev/model/ada_gold_best.pth
+  save_strategy: best
+  test_every: 1
+vocab:
+  min_count:
+    words: 1

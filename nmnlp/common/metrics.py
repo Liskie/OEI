@@ -91,6 +91,7 @@ class TaggingMetric(Metric):
 
     def get_metric(self, counter=None, reset=False) -> Dict:
         c = counter or self.counter
+        # De facto micro average
         total, correct, positive = c.total, c.correct, c.positive
         recall = 0 if total == 0 else correct / total
         precision = 0 if positive == 0 else correct / positive
