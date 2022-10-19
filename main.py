@@ -359,7 +359,7 @@ def main():
         wandb_run = wandb.init(project="OEI",
                                name=f"{cfg.trainer['prefix']}",
                                entity="icall-oei",
-                               group=f"{prefix}{_ARGS.wandb_suffix}",
+                               group=f"{prefix}-{_ARGS.wandb_suffix}" if _ARGS.wandb_suffix else prefix,
                                reinit=True)
         if 'pre_train_path' not in cfg.trainer:
             cfg.trainer['pre_train_path'] = os.path.normpath(
