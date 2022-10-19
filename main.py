@@ -30,7 +30,8 @@ _ARG_PARSER.add_argument('--self', action='store_true', help='crowd annotators s
 _ARG_PARSER.add_argument('--adapter_size', type=int, default=None)
 _ARG_PARSER.add_argument('--lstm_size', type=int, default=None)
 _ARG_PARSER.add_argument('--num_adapters', type=int, default=None)
-# _ARG_PARSER.add_argument('--wandb_name', type=str, required=True)
+
+_ARG_PARSER.add_argument('--wandb_suffix', type=str, default='')
 _ARGS = _ARG_PARSER.parse_args()
 
 os.environ['CUDA_VISIBLE_DEVICES'] = _ARGS.cuda
@@ -62,7 +63,7 @@ else:
     raise Exception('Argument error.')
 
 SEEDS = (123, 456, 789, 686, 666, 233, 1024, 2080, 3080, 3090)
-SEEDS = SEEDS[5:]
+# SEEDS = SEEDS[5:]
 
 nmnlp.common.trainer.EARLY_STOP_THRESHOLD = 5
 
@@ -356,9 +357,9 @@ def main():
         set_seed(seed)
         cfg.trainer['prefix'] = f"{prefix}_{seed}"
         wandb_run = wandb.init(project="OEI",
-                               name=cfg.trainer['prefix'],
+                               name=f"{cfg.trainer['prefix']}",
                                entity="icall-oei",
-                               group=prefix,
+                               group=f"{prefix}{_ARGS.wandb_suffix}",
                                reinit=True)
         if 'pre_train_path' not in cfg.trainer:
             cfg.trainer['pre_train_path'] = os.path.normpath(
