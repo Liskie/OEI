@@ -16,7 +16,7 @@ trainer:
   epoch_num: 25
   # pre_train_path: dev/model/ada-mm_123_1.pth
   # pre_train_path: dev/model/ada-mix-m1_123_1.pth
-  pre_train_path: dev/model/ada-mix-selfself_eval_123_1.pth
+  pre_train_path: dev/model/ada-mix-self_eval_123_1.pth
   save_after: -1
   save_dir: ./dev/model/
   save_strategy: all
