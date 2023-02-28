@@ -3,7 +3,6 @@ data:
   data_dir: ./data/
 model:
   adapter_size: 128
-  # cat: true
   lstm_size: 400
   name: lstm
   word_embedding:
